@@ -81,6 +81,8 @@ class Build:
         This function makes building AUR deps possible.
         If you can, use it.
 
+        Returns the second element "toinstall" of the result of self.build_
+        runner(), or None.
 
         .. note::
 
@@ -113,12 +115,15 @@ class Build:
             elif build_result[0] == 72337:  # PBDEP.
                 DS.fancy_warning(_('Building more AUR packages is required.'))
                 toinstall2 = []
+                sigs2 = []
                 for pkgname2 in build_result[1]:
-                    toinstall2 += self.auto_build(pkgname2, performdepcheck,
-                                                  pkginstall)
+                    (toinstall, sigs) = self.auto_build(pkgname2,
+                        performdepcheck, pkginstall)
+                    toinstall2 += toinstall
+                    sigs2 += sigs
 
                 if toinstall2:
-                    self.install(toinstall2)
+                    self.install(toinstall2, sigs2)
 
                 if DS.validate:
                     self.validate(build_result[1])
@@ -223,6 +228,10 @@ class Build:
         """
         A build function, which actually links to others.  Do not use it
         unless you re-implement auto_build.
+
+        Returns a list [status, toinstall], where "toinstall" might be a
+        further list [att, sigf], each element a list of binary package
+        files.
         """
         try:
             # exists
