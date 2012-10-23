@@ -289,7 +289,7 @@ class Build:
             if DS.uid == 0:
                 mpparams += ' --asroot'
 
-            mpstatus = subprocess.call('/usr/bin/makepkg -sf' + mpparams,
+            mpstatus = subprocess.call('makepkg -sf' + mpparams,
                                        shell=True)
             if pkginstall:
                 # .pkg.tar.xz FTW, but some people change that.
