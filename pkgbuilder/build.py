@@ -173,11 +173,11 @@ class Build:
         # And it takes only 7 lines instead of about 40 in the pyparsing
         # implementation.
 
-        pb = subprocess.Popen('source ' + pkgbuild + '; for i in ${depends'
+        deps = subprocess.check_output(
+                              'source ' + pkgbuild + '; for i in ${depends'
                               '[*]}; do echo $i; done; for i in '
                               '${makedepends[*]}; do echo $i; done',
-                              shell=True, stdout=subprocess.PIPE)
-        deps = pb.stdout.read()
+                              shell=True)
         deps = deps.decode('utf-8')
         deps = deps.split('\n')
 

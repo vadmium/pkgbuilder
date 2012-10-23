@@ -22,7 +22,6 @@ from .utils import Utils
 from .upgrade import Upgrade
 import argparse
 import os
-import subprocess
 
 
 ### main()          The main routine        ###
